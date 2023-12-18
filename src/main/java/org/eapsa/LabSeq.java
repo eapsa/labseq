@@ -1,5 +1,7 @@
 package org.eapsa;
 
+import java.math.BigInteger;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
@@ -8,19 +10,30 @@ public class LabSeq {
 
     @Path("{n}")
     @GET
-    public int labseq(int n) {
+    public BigInteger labseq(int n) {
         return getLabseq(n);
     }
 
-    private int getLabseq(int n){
-        int[] result = new int[n+1];
-        result[0] = 0;
-        result[1] = 1;
-        result[2] = 0;
-        result[3] = 1;
-        for (int i=4; i<=n; i++){
-            result[i] = Math.abs(result[i-4]) + result[i-3];
+    private BigInteger getLabseq(int n){
+        switch (n) {
+            case 0:
+                return BigInteger.valueOf(0);
+            case 1:
+                return BigInteger.valueOf(1);
+            case 2:
+                return BigInteger.valueOf(0);
+            case 3:
+                return BigInteger.valueOf(1);
+            default:
+                BigInteger[] result = new BigInteger[n+1];
+                result[0] = BigInteger.valueOf(0);
+                result[1] = BigInteger.valueOf(1);
+                result[2] = BigInteger.valueOf(0);
+                result[3] = BigInteger.valueOf(1);
+                for (int i=4; i<=n; i++){
+                    result[i] = result[i-4].add(result[i-3]);
+                }
+                return result[n];
         }
-        return result[n];
     }
 }
