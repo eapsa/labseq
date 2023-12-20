@@ -9,8 +9,10 @@ import jakarta.ws.rs.Path;
 public class LabSeq {
 
     @Path("{n}")
+    
     @GET
     public BigInteger labseq(int n) {
+        if(n < 0) throw new IllegalArgumentException("Number must be non-negative integer");
         return getLabseq(n);
     }
 
